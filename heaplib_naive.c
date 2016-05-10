@@ -45,6 +45,7 @@ int hl_init(void *heapptr, unsigned int heap_size) {
 	{
 		return FAIL;
 	}
+	//Checking if heapptr is 8 byte aligned. Realigned if not
 	if (NOT_ALIGN(heapptr))
 	{
 		heapptr = RE_ALIGN(heapptr);
@@ -52,13 +53,15 @@ int hl_init(void *heapptr, unsigned int heap_size) {
 	}
 
 	heap_header_t *heap = (heap_header_t *)heapptr;
+	//Checking if heap_size is 8 byte aligned and realigning if it is not
 	if (NOT_ALIGN(heap_size))
 	{
 		heap_size = RE_ALIGN(heap_size);
 	}
 
 	heap->size = heap_size;
-	char num_bytes = sizeof(heap_header_t);
+	char num_bytes = sizeof(heap_header_t);// this is the size of the header
+	//Checking if num_bytes is 8 byte aligned and realigning if it is not
 	if (NOT_ALIGN(num_bytes))
 	{
 		num_bytes = RE_ALIGN(num_bytes);
@@ -109,7 +112,7 @@ void *hl_resize(void *heapptr, void *blockptr, unsigned int new_block_size) {
 		return FAIL;
 	}
 	heap_header_t *heap = (heap_header_t *)heapptr;
-	// if size is not changing the memory size.
+	//check if new_block_size is 8 byte aligned
 	
 	if (NOT_ALIGN(new_block_size))
 	{
